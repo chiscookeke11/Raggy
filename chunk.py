@@ -2,7 +2,7 @@ from chunker import chunk_corpus
 
 
 
-chunks = chunk_corpus(
+chunk = chunk_corpus(
     corpus_dir="corpus",
     chunk_size=200,
     overlap=50,

@@ -31,7 +31,7 @@ def chunk_text(
         chunk = text[start:end]
         chunks.append(chunk)
 
-        # Calculate next start from the actual end
+        # Calculate next start from the ACTUAL end
         start = end - overlap
 
         # Move forward to a word boundary
@@ -56,11 +56,7 @@ def chunk_corpus(
     all_chunks = []
 
     for file in corpus_path.glob("*.md"):
-        try:
-            text = file.read_text(encoding="utf-8")
-        except (UnicodeDecodeError, OSError) as error:
-            print(f"Could not read {file.name}: {error}")
-            continue
+        text = file.read_text(encoding="utf-8")
 
         chunks = chunk_text(
             text,
