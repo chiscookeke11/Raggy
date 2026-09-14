@@ -1,6 +1,7 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+
 from chunker import chunk_corpus
 
 
