@@ -1,11 +1,53 @@
+import sys
+import itertools
+import threading
+import time
+
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from chunker import chunk_corpus
 
 
+# Terminal spinner
+def show_spinner(message, stop_event):
+    spinner = itertools.cycle(["|", "/", "-", "\\"])
+
+    while not stop_event.is_set():
+        print(
+            f"\r{next(spinner)} {message}",
+            end="",
+            flush=True
+        )
+        time.sleep(0.1)
+
+    print(f"\r✓ {message}")
+
+
+def run_with_spinner(message, function):
+    stop_event = threading.Event()
+
+    spinner_thread = threading.Thread(
+        target=show_spinner,
+        args=(message, stop_event)
+    )
+
+    spinner_thread.start()
+
+    try:
+        result = function()
+    finally:
+        stop_event.set()
+        spinner_thread.join()
+
+    return result
+
+
 # Load the model once
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = run_with_spinner(
+    "Loading model...",
+    lambda: SentenceTransformer("all-MiniLM-L6-v2")
+)
 
 
 # Get all chunks
@@ -13,12 +55,28 @@ chunks = chunk_corpus()
 
 
 # Encode every chunk
-for chunk in chunks:
-    chunk["vector"] = model.encode(chunk["text"])
+def encode_chunks():
+    for chunk in chunks:
+        chunk["vector"] = model.encode(chunk["text"])
 
 
-# The user's query
-query = "the tortoise wins the race by being steady"
+run_with_spinner(
+    "Embedding chunks...",
+    encode_chunks
+)
+
+
+# Get the user's query from the command line
+if len(sys.argv) < 2:
+    print("Usage: python retrieve.py \"your question\"")
+    print(
+        'Example: python retrieve.py '
+        '"who won the race between the tortoise and the hare?"'
+    )
+    sys.exit(0)
+
+
+query = " ".join(sys.argv[1:])
 
 
 # Encode the query
@@ -51,7 +109,7 @@ ranked_chunks = sorted(
 
 
 # Print the top 3
-print(f"Query: {query}\n")
+print(f"\nQuery: {query}\n")
 
 for rank, chunk in enumerate(ranked_chunks[:3], start=1):
     print(f"Rank {rank}")
