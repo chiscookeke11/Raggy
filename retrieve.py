@@ -9,6 +9,18 @@ from sentence_transformers import SentenceTransformer
 from chunker import chunk_corpus
 
 
+# Get the user's query before doing expensive work
+if len(sys.argv) < 2:
+    print("Usage: python retrieve.py \"your question\"")
+    print(
+        'Example: python retrieve.py '
+        '"who won the race between the tortoise and the hare?"'
+    )
+    sys.exit(2)
+
+query = " ".join(sys.argv[1:])
+
+
 # Terminal spinner
 def show_spinner(message, stop_event):
     spinner = itertools.cycle(["|", "/", "-", "\\"])
@@ -17,11 +29,15 @@ def show_spinner(message, stop_event):
         print(
             f"\r{next(spinner)} {message}",
             end="",
-            flush=True
+            flush=True,
+            file=sys.stderr
         )
         time.sleep(0.1)
 
-    print(f"\r✓ {message}")
+    print(
+        f"\r✓ {message}",
+        file=sys.stderr
+    )
 
 
 def run_with_spinner(message, function):
@@ -66,55 +82,5 @@ run_with_spinner(
 )
 
 
-# Get the user's query from the command line
-if len(sys.argv) < 2:
-    print("Usage: python retrieve.py \"your question\"")
-    print(
-        'Example: python retrieve.py '
-        '"who won the race between the tortoise and the hare?"'
-    )
-    sys.exit(0)
-
-
-query = " ".join(sys.argv[1:])
-
-
 # Encode the query
 query_vector = model.encode(query)
-
-
-def cosine_similarity(a, b):
-    dot_product = np.dot(a, b)
-
-    magnitude_a = np.linalg.norm(a)
-    magnitude_b = np.linalg.norm(b)
-
-    return dot_product / (magnitude_a * magnitude_b)
-
-
-# Calculate similarity for every chunk
-for chunk in chunks:
-    chunk["score"] = cosine_similarity(
-        query_vector,
-        chunk["vector"]
-    )
-
-
-# Rank chunks from highest score to lowest
-ranked_chunks = sorted(
-    chunks,
-    key=lambda chunk: chunk["score"],
-    reverse=True
-)
-
-
-# Print the top 3
-print(f"\nQuery: {query}\n")
-
-for rank, chunk in enumerate(ranked_chunks[:3], start=1):
-    print(f"Rank {rank}")
-    print(f"Score: {chunk['score']:.4f}")
-    print(f"Document: {chunk['document']}")
-    print(f"Chunk: {chunk['chunk_index']}")
-    print(f"Text: {chunk['text']}")
-    print("-" * 80)
