@@ -8,6 +8,7 @@ class DocumentOut(BaseModel):
     size_bytes: int
     page_count: int
     chunk_count: int
+    embedded_count: int = 0
     status: str
     current_stage: str
     error: str | None = None

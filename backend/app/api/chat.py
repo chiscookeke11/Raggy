@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 from app.models.schemas import ChatRequest, ChatResponse, PromptMessage, RetrievalTrace
 from app.services.chat import answer_question, load_trace
 from app.services.vectorstore import chroma
+from app.core.database import get_db
 
 router = APIRouter(tags=["chat"])
 

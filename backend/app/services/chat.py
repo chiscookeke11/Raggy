@@ -8,6 +8,11 @@ from app.services.embeddings.client import embed_query
 from app.services.llm.client import generate
 from app.services.rag.prompt import build_messages
 from app.services.rag.retrieval import search
+from app.services.llm.client import Generation, generate
+
+
+
+NO_CONTEXT_ANSWER = "I couldn't find anything relevant in the uploaded documents."
 
 
 def _ms(start: float) -> float:
@@ -29,7 +34,10 @@ def answer_question(question: str, top_k: int | None, document_ids: list[str] | 
     messages = build_messages(question, chunks)
 
     t = time.perf_counter()
-    generation = generate(messages)
+    if chunks:
+        generation = generate(messages)
+    else:
+        generation = Generation(text=NO_CONTEXT_ANSWER, prompt_tokens=0, completion_tokens=0)
     generation_ms = _ms(t)
 
     trace = RetrievalTrace(

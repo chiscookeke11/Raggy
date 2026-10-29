@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS documents (
     size_bytes    INTEGER NOT NULL,
     page_count    INTEGER NOT NULL DEFAULT 0,
     chunk_count   INTEGER NOT NULL DEFAULT 0,
+    embedded_count INTEGER NOT NULL DEFAULT 0,
     status        TEXT NOT NULL DEFAULT 'processing',   -- processing | ready | failed
     current_stage TEXT NOT NULL DEFAULT 'uploaded',
     stage_timings TEXT NOT NULL DEFAULT '{}',           -- JSON: {"chunking": 12.4, ...} in ms
@@ -54,8 +55,22 @@ def get_db():
         conn.close()
 
 
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    columns = {row["name"] for row in conn.execute("PRAGMA table_info(documents)")}
+    if "embedded_count" not in columns:
+        conn.execute("ALTER TABLE documents ADD COLUMN embedded_count INTEGER NOT NULL DEFAULT 0")
+
+
 def init_db() -> None:
     settings.upload_dir.mkdir(parents=True, exist_ok=True)
     settings.chroma_dir.mkdir(parents=True, exist_ok=True)
     with get_db() as conn:
         conn.executescript(SCHEMA)
+        _migrate(conn)
+        # Any job still marked "processing" at startup was killed mid-run.
+        conn.execute(
+            "UPDATE documents SET status = 'failed', "
+            "error = 'Interrupted by a server restart. Delete this document and upload it again.' "
+            "WHERE status = 'processing'"
+        )

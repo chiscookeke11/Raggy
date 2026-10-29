@@ -6,7 +6,7 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.services.embeddings.client import embed_documents
 from app.services.rag.chunking import chunk_pages
-from app.services.rag.cleaning import clean_text
+from app.services.rag.cleaning import clean_text, strip_repeated_lines
 from app.services.rag.extraction import extract_pages
 from app.services.vectorstore import chroma
 
@@ -14,6 +14,15 @@ from app.services.vectorstore import chroma
 def _set_stage(doc_id: str, stage: str) -> None:
     with get_db() as conn:
         conn.execute("UPDATE documents SET current_stage = ? WHERE id = ?", (stage, doc_id))
+
+
+def _save_progress(doc_id: str, **fields) -> None:
+    assignments = ", ".join(f"{name} = ?" for name in fields)
+    with get_db() as conn:
+        conn.execute(
+            f"UPDATE documents SET {assignments} WHERE id = ?",
+            (*fields.values(), doc_id),
+        )
 
 
 @contextmanager
@@ -39,6 +48,8 @@ def run_ingestion(doc_id: str) -> None:
             pages = extract_pages(path, file_type)
 
         with _timed(doc_id, "cleaning", timings):
+            if file_type == "pdf":
+                pages = strip_repeated_lines(pages)
             for page in pages:
                 page.text = clean_text(page.text, reflow=(file_type == "pdf"))
 
@@ -46,10 +57,15 @@ def run_ingestion(doc_id: str) -> None:
             chunks = chunk_pages(pages, settings.chunk_size, settings.chunk_overlap)
             if not chunks:
                 raise ValueError("No extractable text found (scanned PDF? OCR is on the backlog).")
+            for c in chunks:
+                c.text.encode("utf-8")   # fail early on bad characters, before the slow stage
+            _save_progress(doc_id, page_count=len(pages), chunk_count=len(chunks))
 
         with _timed(doc_id, "embedding", timings):
-            vectors = embed_documents([c.text for c in chunks])
-
+            vectors = embed_documents(
+                [c.text for c in chunks],
+                on_progress=lambda done: _save_progress(doc_id, embedded_count=done),
+            )
         with _timed(doc_id, "storing", timings):
             ids = [f"{doc_id}:{c.index}" for c in chunks]
             chroma.add_chunks(
