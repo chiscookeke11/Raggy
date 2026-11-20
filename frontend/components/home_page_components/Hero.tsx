@@ -95,10 +95,10 @@ export default function Hero() {
 
 
                 <div className="w-full border-b px-5 py-3 flex items-start  gap-6 " >
-                    <h4 className="font-semibold text-lg md:text-2xl text-[#11181c] ">0.82</h4>
+                    <h4 className="font-semibold text-lg md:text-2xl text-[#11181c] ">0.74</h4>
 
                     <div className=" flex flex-col items-start gap-0.5 " >
-                        <p className="text-[#11181c] text-sm md:text-base " >Either party may end this agreement by giving 30 days written notice to the other party.</p>
+                        <p className="text-[#11181c] text-sm md:text-base " >Notice must be delivered to the address listed in Schedule A.</p>
                         <small className="text-[10px] md:text-xs text-[#687076]">contract.pdf, page 4</small>
                     </div>
 
@@ -107,10 +107,10 @@ export default function Hero() {
 
 
                 <div className="w-full border-b px-5 py-3 flex items-start  gap-6 " >
-                    <h4 className="font-semibold text-lg md:text-2xl text-[#11181c] ">0.82</h4>
+                    <h4 className="font-semibold text-lg md:text-2xl text-[#11181c] ">0.58</h4>
 
                     <div className=" flex flex-col items-start gap-0.5 " >
-                        <p className="text-[#11181c] text-sm md:text-base " >Either party may end this agreement by giving 30 days written notice to the other party.</p>
+                        <p className="text-[#11181c] text-sm md:text-base " >Payment is due within 14 days of each invoice.</p>
                         <small className="text-[10px] md:text-xs text-[#687076]" >contract.pdf, page 4</small>
                     </div>
 
