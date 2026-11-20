@@ -4,7 +4,7 @@ import { chunks_and_scores } from "@/data/steps";
 
 export default function Features() {
     return (
-        <section className="w-full max-w-6xl py-6 my-6  flex flex-col gap-7 mx-auto font-grotesque  "  >
+        <section className="w-full max-w-6xl py-6 my-6  flex flex-col gap-7 mx-auto font-grotesque overflow-x-hidden md:overflow-visible "  >
 
 
             <div className="space-y-1 border-b border-[#11181c] px-3.5 py-8  " >
@@ -17,7 +17,7 @@ export default function Features() {
 
 
             {/* See every chunk */}
-            <div className="w-full flex items-center  border-b border-[#11181c] px-3.5 py-8 gap-7 " >
+            <div className="w-full flex flex-col md:flex-row items-center  border-b border-[#11181c] px-3.5 py-8 gap-7 " >
                 <div className="space-y-1 " >
                     <h6 className="font-semibold text-xl md:text-3xl  " >See every chunk</h6>
                     <p className="text-[#11181c] text-sm md:text-base max-w-xl " >
@@ -110,7 +110,7 @@ export default function Features() {
             {/* Know why a passage was chosen */}
 
 
-            <div className="w-full flex items-center  border-b border-[#11181c] px-3.5 py-8 gap-7 " >
+            <div className="w-full flex flex-col-reverse md:flex-row  items-center  border-b border-[#11181c] px-3.5 py-8 gap-7 " >
 
                 <div className="bg-white w-full max-w-xl  relative my-19 py-10 space-y-4 " >
 
@@ -153,9 +153,9 @@ export default function Features() {
 
 
 
-                <div className="flex flex-col items-end gap-1 " >
+                <div className="flex flex-col items-start md:items-end gap-1 " >
                     <h6 className="font-semibold text-xl md:text-3xl  " >Know why a passage was chosen</h6>
-                    <p className="text-[#11181c] text-end text-sm md:text-base max-w-xl " >
+                    <p className="text-[#11181c] text-start md:text-end text-sm md:text-base max-w-xl " >
                         Every question retrieves a ranked list of chunks with similarity scores.
                         A weak top score is an early warning that the answer may be thin.</p>
                 </div>
@@ -165,7 +165,7 @@ export default function Features() {
 
 
             {/* Read the exact prompt */}
-            <div className="w-full flex items-center px-3.5 py-8 gap-7 " >
+            <div className="w-full flex flex-col md:flex-row items-center px-3.5 py-8 gap-7 " >
 
                 <div className="flex flex-col items-start gap-1 " >
                     <h6 className="font-semibold text-xl md:text-3xl  " >Read the exact prompt</h6>

@@ -6,7 +6,7 @@ import { Play } from "lucide-react";
 
 export default function Parts() {
     return (
-        <section className=" w-full h-full py-10 md:py-20  flex flex-col  font-grotesque border border-[#11181c] " >
+        <section className=" w-full h-full py-10 md:py-20  flex flex-col gap-10 md:gap-0  font-grotesque border border-[#11181c] " >
 
 
             <div className="w-full px-3.5 lg:ml-[19%] max-w-120 flex flex-col items-start gap-2 " >
@@ -17,7 +17,7 @@ export default function Parts() {
 
 
 
-            <div className=" w-full flex items-center justify-between overflow-x-hidden  h-125  " >
+            <div className=" w-full hidden md:flex items-center justify-between overflow-x-hidden  h-125  " >
 
 
                 <div className="hidden lg:block shrink-0 size-90 -ml-50 rounded-full
@@ -141,14 +141,14 @@ bg-white"
 
 
 
-            <div className="w-full  max-w-7xl  mx-auto flex flex-row items-start gap-30 " >
+            <div className="w-full  max-w-7xl  mx-auto flex md:flex-row flex-col px-3.5 items-start gap-10 md:gap-30 " >
 
 
                 <div className="w-full basis-1/2  flex-col items-start flex "  >
                     <h5 className=" text-xl md:text-3xl font-semibold   " >First, the document</h5>
                     <p className="text-[#11181c] text-sm md:text-base " >Runs once for each file you upload.</p>
 
-                    <div className=" w-full flex items-center gap-5 flex-wrap mt-8 " >
+                    <div className=" w-full flex items-center gap-3 md:gap-5 flex-wrap mt-8 " >
 
                         {document_processing_steps.map((step, i) => (
                             <span
@@ -166,7 +166,7 @@ bg-white"
                     <h5 className=" text-xl md:text-3xl font-semibold   " >Then, the question</h5>
                     <p className="text-[#11181c] text-sm md:text-base " >Runs every time you ask.</p>
 
-                    <div className=" w-full flex items-center gap-5 flex-wrap mt-8 " >
+                    <div className=" w-full flex items-center  gap-3 md:gap-5 flex-wrap mt-8 " >
 
                         {question_flow.map((step, i) => (
                             <span
