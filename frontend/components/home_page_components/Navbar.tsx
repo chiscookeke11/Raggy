@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Navbar() {
     return (
-        <nav className="w-full flex items-center justify-between gap-10 py-4 px-[5%] " >
+        <nav className="w-full flex items-center justify-between gap-10 py-4 px-[1%] md:px-[5%] " >
 
             <Link href={"/"} >
                 <Image src={"/logos/logo.png"}
@@ -20,12 +20,12 @@ export default function Navbar() {
 
 
             <ul className="w-fit hidden md:flex items-center gap-6 text-sm font-grotesque font-medium  " >
-                <li><Link href={"#"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out" >How it works</Link></li>
-                <li><Link href={"#"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out">What you can inspect</Link></li>
-                <li><Link href={"#"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out">Privacy</Link></li>
+                <li><Link href={"#how_it_works"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out" >How it works</Link></li>
+                <li><Link href={"#features"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out">What you can inspect</Link></li>
+                <li><Link href={"#privacy"} className="text-[#687076] hover:text-[#171717] transition-all duration-200 ease-in-out">Privacy</Link></li>
 
                 <li>
-                    <Link href={"#"}
+                    <Link href={"/dashboard"}
                         className="border border-[#171717]  px-6 py-2 relative group bg-white"
                     >
                         <span className="relative z-10 text-white mix-blend-difference font-normal " >Dashboard</span>

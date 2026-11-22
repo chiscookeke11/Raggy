@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "../ui/CustomButton";
+import Link from "next/link";
 
 
 
@@ -19,13 +20,18 @@ export default function Hero() {
                     and the exact prompt the model read.</p>
 
                 <div className="w-fit p-2 border border-[#11181c] flex items-center gap-4 justify-center " >
-                    <Button className="text-sm md:text-base " >
-                        Dashboard
-                    </Button>
+                    <Link href={"/dashboard"} >
+                        <Button className="text-sm md:text-base " >
+                            Dashboard
+                        </Button></Link>
 
-                    <Button className="text-sm md:text-base ">
-                        See how it works
-                    </Button>
+
+                    <Link href={"#how_it_works"} >
+                        <Button className="text-sm md:text-base ">
+                            See how it works
+                        </Button>
+                    </Link>
+
                 </div>
 
                 <p className=" text-[#687076]  font-normal text-xs md:text-sm " >
@@ -63,7 +69,7 @@ export default function Hero() {
 
                     <div className=" md:space-y-1" >
                         <h3 className="text-base md:text-xl font-medium " >Question</h3>
-                        <h2 className=" text-xl md:text-3xl font-semibold " >How much notice does either side need to give?</h2>
+                        <h2 className=" text-xl md:text-3xl font-semibold " >How much notice does either side need to give</h2>
                     </div>
 
                     <Image

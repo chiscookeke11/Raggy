@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../ui/CustomButton";
 
 
@@ -13,7 +14,9 @@ export default function CTA() {
                 <p className="text-[#687076] text-base md:text-lg  ">Upload a PDF, text, or Markdown file and watch as AI extracts, processes,
                     and makes sense of your content. Then ask questions and get instant, insightful answers.</p>
 
-                <Button className="mt-7 " >Get started</Button>
+                <Link href={"/dashboard"} >
+                    <Button className=" mt-3 md:mt-7 " >Get started</Button>
+                </Link>
             </div>
         </section>
     )

@@ -27,3 +27,10 @@ def health():
         llm_model_ready=_has(settings.llm_model, installed),
         vector_count=chroma.count(),
     )
+
+
+@router.get("/")
+def root():
+    return {
+        "status": "ok"
+    }

@@ -3,7 +3,9 @@
 
 export default function DocumentFlow() {
     return (
-        <section className=" w-full flex flex-col items-center py-26 px-3 font-grotesque border-t border-b border-[#11181c] overflow-x-hidden md:overflow-x-visible " >
+        <section
+            id="privacy"
+            className=" w-full flex flex-col items-center py-26 px-3 font-grotesque border-t border-b border-[#11181c] overflow-x-hidden md:overflow-x-visible " >
 
 
             <div className="bg-white w-full max-w-337.5 relative py-10 px-2 md:px-5 flex flex-col md:flex-row items-center justify-between gap-10  " >

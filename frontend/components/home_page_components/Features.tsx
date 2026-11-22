@@ -4,7 +4,9 @@ import { chunks_and_scores } from "@/data/steps";
 
 export default function Features() {
     return (
-        <section className="w-full max-w-6xl py-6 my-6  flex flex-col gap-7 mx-auto font-grotesque overflow-x-hidden md:overflow-visible "  >
+        <section
+            id="features"
+            className="w-full max-w-6xl py-6 my-6  flex flex-col gap-7 mx-auto font-grotesque overflow-x-hidden md:overflow-visible "  >
 
 
             <div className="space-y-1 border-b border-[#11181c] px-3.5 py-8  " >

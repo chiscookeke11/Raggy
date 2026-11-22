@@ -6,7 +6,9 @@ import { Play } from "lucide-react";
 
 export default function Parts() {
     return (
-        <section className=" w-full h-full py-10 md:py-20  flex flex-col gap-10 md:gap-0  font-grotesque border border-[#11181c] " >
+        <section
+        id="how_it_works"
+        className=" w-full h-full py-10 md:py-20  flex flex-col gap-10 md:gap-0  font-grotesque border border-[#11181c] " >
 
 
             <div className="w-full px-3.5 lg:ml-[19%] max-w-120 flex flex-col items-start gap-2 " >

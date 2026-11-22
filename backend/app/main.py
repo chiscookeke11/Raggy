@@ -22,7 +22,7 @@ app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],   # the Vite dev server, for later
+    allow_origins=["http://localhost:5173", "http://10.172.168.230:3000"],   # the Vite dev server, for later
     allow_methods=["*"],
     allow_headers=["*"],
 )
