@@ -5,7 +5,7 @@ export default function DocumentFlow() {
     return (
         <section
             id="privacy"
-            className=" w-full flex flex-col items-center py-26 px-3 font-grotesque border-t border-b border-[#11181c] overflow-x-hidden md:overflow-x-visible " >
+            className=" w-full flex flex-col items-center py-46 px-3 font-grotesque border-t border-b border-[#11181c] overflow-x-hidden md:overflow-x-visible " >
 
 
             <div className="bg-white w-full max-w-337.5 relative py-10 px-2 md:px-5 flex flex-col md:flex-row items-center justify-between gap-10  " >
@@ -22,11 +22,11 @@ export default function DocumentFlow() {
 
 
 
-                <div className="h-0.5 w-[130%] bg-[#11181c]  absolute top-0 left-[50%]
+                <div className="h-0.5 w-[110%] bg-[#11181c]  absolute top-0 left-[50%]
                  translate-x-[-50%]
                  " />
 
-                <div className="h-0.5 w-[130%] bg-[#11181c]  absolute bottom-0 left-[50%]
+                <div className="h-0.5 w-[110%] bg-[#11181c]  absolute bottom-0 left-[50%]
                  translate-x-[-50%]
                  " />
 

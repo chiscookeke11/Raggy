@@ -39,3 +39,73 @@ export interface Document {
 }
 
 export type DocumentUploadResponse = Document;
+
+
+export interface DocumentChunk {
+    id: string;
+    document_id: string;
+    chunk_index: string;
+    page: number;
+    text: string;
+    char_count: number;
+    token_count: number;
+    embedding_data: number
+}
+
+
+export interface ChatRequest {
+    question: string;
+    top_k: number;
+    document_ids: string[]
+}
+
+
+export interface ChatTraceChunk {
+    rank: number;
+    chunk_id: string;
+    document_id: string;
+    filename: string;
+    page: number;
+    chunk_index: number;
+    text: string;
+    distance: number;
+    similarity: number;
+}
+
+export interface ChatTrace {
+    question: string;
+    llm_model: string;
+    embedding_model: string;
+    embedding_dim: number;
+    top_k: number;
+    chunks: ChatTraceChunk[];
+    reranked: boolean;
+    prompt: {
+        role: string;
+        content: string;
+    }[];
+    timings: {
+        embedding_ms: number;
+        retrieval_ms: number;
+        generation_ms: number;
+        total_ms: number;
+    };
+    usage: {
+        prompt_tokens: number;
+        completion_tokens: number;
+    };
+}
+
+export interface ChatResponse {
+    chat_id: string;
+    question: string;
+    answer: string;
+    trace: ChatTrace;
+    created_at: string;
+}
+
+
+export interface PromptMessage {
+    role: string;
+    content: string;
+}
