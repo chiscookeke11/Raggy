@@ -3,11 +3,18 @@
 import { useDocumentStore } from "@/store/document.store";
 import DocumentUploader from "./DocumentUploader";
 import { useEffect, useState } from "react";
-import { getDocuments, getDocumentById } from "@/services/document.service";
+import { getDocuments, getDocumentById, deleteDocument } from "@/services/document.service";
 import DocumentListSkeleton from "./DocumentSkeleton";
+import { Trash } from "lucide-react";
 
 
 export default function DashboardNavigationBar() {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [deleting, setDeleting] = useState<string | null>(null)
+
+
+
     const setDocuments = useDocumentStore(
         (state) => state.setDocuments
     )
@@ -15,8 +22,6 @@ export default function DashboardNavigationBar() {
     const documents = useDocumentStore((s) =>
         s.documents)
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     const setActiveDocument = useDocumentStore(
         (state) => state.setActiveDocument
@@ -27,6 +32,9 @@ export default function DashboardNavigationBar() {
     );
 
 
+    const removeDocument = useDocumentStore(
+        (state) => state.removeDocument
+    )
 
 
 
@@ -70,6 +78,38 @@ export default function DashboardNavigationBar() {
 
 
 
+    const handleDeleteDocument = async (docId: string) => {
+        const confirmed = window.confirm("Are you sure you want to delete this document?")
+
+
+        if (!confirmed) return;
+
+        setDeleting(docId)
+        setError(null)
+
+        try {
+            await deleteDocument(docId)
+
+            // update zustand only after the backed confirms deletion
+            removeDocument(docId);
+
+        } catch (err) {
+            console.error("Failed to delete document:", err);
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Failed to delete document"
+            );
+        }
+        finally {
+            setDeleting(null)
+        }
+
+    }
+
+
+
+
     return (
         <div className="  w-full h-full overflow-y-auto py-10 px-[6%] flex flex-col items-start gap-20 mb-10 thin-scrollbar " >
 
@@ -82,8 +122,10 @@ export default function DashboardNavigationBar() {
                     <DocumentListSkeleton />
                     :
 
-                    !documents ? (
-                        "No found "
+                    documents.length === 0 ? (
+                        <p className="text-sm text-gray-500">
+                            No documents found.
+                        </p>
                     )
 
                         :
@@ -102,6 +144,25 @@ export default function DashboardNavigationBar() {
                                         {d.chunk_count} chunk{d.chunk_count > 1 && "s"}</p>
                                 </div>
 
+
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        handleDeleteDocument(d.id);
+                                    }}
+                                    className="ml-auto text-white bg-red-500 size-6 cursor-pointer
+                                     flex items-center justify-center rounded-sm
+                                     hover:scale-90 transition-all duration-100 ease-in-out
+                                     " >
+                                    {deleting === d.id ? <>
+
+                                    </>
+                                        :
+                                        <>
+                                            <Trash size={14} /></>
+                                    }
+                                </button>
 
                             </div>
                         ))}

@@ -7,6 +7,7 @@ import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 
 
@@ -56,15 +57,15 @@ export default function Header() {
 
 
             {loading ? <p className=" font-normal text-sm text-[#687076] flex items-center gap-2 " >
-                <span className="block size-3 border border-t-transparent rounded-full border-blue-600 animate-spin " />
+                <Spinner />
                 Checking backend connection...</p> :
                 !health ?
-                    <p className=" font-normal text-sm text-[#687076] " >Backend unavailable</p> :
+                    <p className=" font-normal text-sm text-red-500 " >Backend unavailable</p> :
                     (
                         <div className="w-fit flex items-center gap-7 " >
                             <div className="flex items-center gap-2 " >
                                 <span className={`size-2 block rounded-full
-                                    ${health.ollama_reachable ? "bg-green-800" : "bg-red-600"}
+                                    ${health.ollama_reachable ? "bg-green-800" : "bg-red-500"}
                                     `} />
                                 <p className=" font-normal text-sm text-[#687076] " >Ollama
                                     {health.ollama_reachable ? " connected" : " Unavaible"}
@@ -75,7 +76,7 @@ export default function Header() {
 
                             <div className="flex items-center gap-2 " >
                                 <span className={`size-2 block rounded-full bg-green-800
-                                    ${health.embedding_model_ready ? "bg-green-800" : "bg-red-600"}
+                                    ${health.embedding_model_ready ? "bg-green-800" : "bg-red-500"}
                                     `} />
                                 <p className=" font-normal text-sm text-[#687076] " >Embedding model
                                     {health.embedding_model_ready ? " ready" : " unavailable"}
@@ -86,7 +87,7 @@ export default function Header() {
                             <div className="flex items-center gap-2 " >
                                 <span className={`
                                     size-2 block rounded-full bg-green-800
-                                    ${health.llm_model_ready ? "bg-green-800" : "bg-red-600"}
+                                    ${health.llm_model_ready ? "bg-green-800" : "bg-red-500"}
                                     `} />
                                 <p className=" font-normal text-sm text-[#687076] " >
                                     LLM Model: {health.llm_model_ready ? " ready" : " unavailable"}

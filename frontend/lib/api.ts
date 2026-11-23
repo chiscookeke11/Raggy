@@ -23,5 +23,11 @@ export async function apiRequest<T>(
         throw new Error(error || `API Error: ${response.status}`);
     }
 
+    // 204 means the request succeeded but returned no content
+    if (response.status === 204) {
+        return undefined as T;
+    }
+
+
     return response.json() as Promise<T>;
 }
